@@ -1008,8 +1008,8 @@ Disassembly of section .text:
      876:	8e 01       	movw	r16, r28
      878:	0f 5f       	subi	r16, 0xFF	; 255
      87a:	1f 4f       	sbci	r17, 0xFF	; 255
-     87c:	f8 e0       	ldi	r31, 0x08	; 8
-     87e:	ff 2e       	mov	r15, r31
+     87c:	88 e0       	ldi	r24, 0x08	; 8
+     87e:	f8 2e       	mov	r15, r24
      880:	c8 01       	movw	r24, r16
      882:	64 ef       	ldi	r22, 0xF4	; 244
      884:	71 e0       	ldi	r23, 0x01	; 1
@@ -1039,8 +1039,8 @@ Disassembly of section .text:
      8ba:	8e 01       	movw	r16, r28
      8bc:	0f 5f       	subi	r16, 0xFF	; 255
      8be:	1f 4f       	sbci	r17, 0xFF	; 255
-     8c0:	a0 e2       	ldi	r26, 0x20	; 32
-     8c2:	fa 2e       	mov	r15, r26
+     8c0:	90 e2       	ldi	r25, 0x20	; 32
+     8c2:	f9 2e       	mov	r15, r25
      8c4:	c8 01       	movw	r24, r16
      8c6:	6a ef       	ldi	r22, 0xFA	; 250
      8c8:	70 e0       	ldi	r23, 0x00	; 0

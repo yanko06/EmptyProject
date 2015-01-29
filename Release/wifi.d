@@ -1,4 +1,5 @@
-main.d main.o: ../main.c C:\workspaceMars\FreeRTOS801\include/FreeRTOS.h \
+wifi.d wifi.o: ../wifi.c ../wifi.h \
+  C:\workspaceMars\FreeRTOS801\include/FreeRTOS.h \
   C:\workspaceMars\FreeRTOS801\include/projdefs.h \
   C:\workspaceMars\FreeRTOS801\include/FreeRTOSConfig.h \
   C:\workspaceMars\FreeRTOS801\include/freeRTOSBoardDefs.h \
@@ -12,7 +13,9 @@ main.d main.o: ../main.c C:\workspaceMars\FreeRTOS801\include/FreeRTOS.h \
   C:\workspaceMars\FreeRTOS801\include/queue.h \
   C:\workspaceMars\FreeRTOS801\include/serial.h \
   C:\workspaceMars\FreeRTOS801\include/ringBuffer.h \
-  C:\workspaceMars\FreeRTOS801\include/FreeRTOS.h ../wifi.h
+  C:\workspaceMars\FreeRTOS801\include/FreeRTOS.h
+
+../wifi.h:
 
 C:\workspaceMars\FreeRTOS801\include/FreeRTOS.h:
 
@@ -43,5 +46,3 @@ C:\workspaceMars\FreeRTOS801\include/serial.h:
 C:\workspaceMars\FreeRTOS801\include/ringBuffer.h:
 
 C:\workspaceMars\FreeRTOS801\include/FreeRTOS.h:
-
-../wifi.h:

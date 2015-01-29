@@ -17,7 +17,7 @@ C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(list.o)
 c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a(_udivmodsi4.o)
                               C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(serial.o) (__udivmodsi4)
 c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a(_prologue.o)
-                              ./main.o (__prologue_saves__)
+                              ./wifi.o (__prologue_saves__)
 c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a(_epilogue.o)
                               C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(serial.o) (__epilogue_restores__)
 c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a(_exit.o)
@@ -66,6 +66,7 @@ Linker script and memory map
 Address of section .data set to 0x800200
 LOAD c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/../../../../avr/lib/avr6/crtm2560.o
 LOAD ./main.o
+LOAD ./wifi.o
 LOAD C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a
 LOAD c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/../../../../avr/lib/avr6\libm.a
 LOAD C:\workspaceMars\FreeRTOS801\Release\libFreeRTOS801.a
@@ -274,6 +275,7 @@ LOAD c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a
                 0x0000018c                __vector_20
                 0x0000018c                __vector_42
  .text          0x00000190        0x0 ./main.o
+ .text          0x00000190        0x0 ./wifi.o
  .text          0x00000190        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(serial.o)
  .text          0x00000190        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(heap_4.o)
  .text          0x00000190        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(tasks.o)
@@ -313,11 +315,14 @@ LOAD c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a
  .text.main     0x00000790       0xd2 ./main.o
                 0x00000790                main
  .text.TaskBlinkGreenLED
-                0x00000862       0x44 ./main.o
+                0x00000862       0x44 ./wifi.o
+                0x00000862                TaskBlinkGreenLED
  .text.TaskBlinkBlueLED
-                0x000008a6       0x44 ./main.o
+                0x000008a6       0x44 ./wifi.o
+                0x000008a6                TaskBlinkBlueLED
  .text.TaskBlinkRedLED
-                0x000008ea       0x4a ./main.o
+                0x000008ea       0x4a ./wifi.o
+                0x000008ea                TaskBlinkRedLED
  .text.xSerialFlush
                 0x00000934       0x4e C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(serial.o)
                 0x00000934                xSerialFlush
@@ -522,6 +527,7 @@ LOAD c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a
  *(.data)
  .data          0x00800200        0x0 c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/../../../../avr/lib/avr6/crtm2560.o
  .data          0x00800200       0x18 ./main.o
+ .data          0x00800218        0x0 ./wifi.o
  .data          0x00800218        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(serial.o)
  .data          0x00800218        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(heap_4.o)
  .data          0x00800218        0x5 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(tasks.o)
@@ -563,6 +569,7 @@ LOAD c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/avr6\libgcc.a
  *(.bss)
  .bss           0x00800224        0x0 c:/arduino/hardware/tools/avr/bin/../lib/gcc/avr/4.3.2/../../../../avr/lib/avr6/crtm2560.o
  .bss           0x00800224        0x0 ./main.o
+ .bss           0x00800224        0x0 ./wifi.o
  .bss           0x00800224        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(serial.o)
  .bss           0x00800224        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(heap_4.o)
  .bss           0x00800224        0x0 C:/workspaceMars/FreeRTOS801/Release/libFreeRTOS801.a(tasks.o)
