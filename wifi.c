@@ -48,8 +48,6 @@ void TaskBlinkBlueLED(void *pvParameters) // Main Blue LED Flash
 	
 	xLastWakeTime = xTaskGetTickCount();
 
-	//DDRE = _BV(DDE5);
-
     while(1)
     {
     	vTaskDelayUntil( &xLastWakeTime, ( 500 / portTICK_PERIOD_MS ) );
@@ -70,8 +68,6 @@ void TaskBlinkGreenLED(void *pvParameters) // Main Green LED Flash
     TickType_t xLastWakeTime;
 	
 	xLastWakeTime = xTaskGetTickCount();
-
-	//DDRE = _BV(DDE3);
 
     while(1)
     {
