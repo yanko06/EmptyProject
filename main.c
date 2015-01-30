@@ -37,37 +37,35 @@ int main(void)
     // turn on the serial port for debugging or for other USART reasons.
 	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 
-	avrSerialPrint_P(PSTR("\r\n\n\nHello World!\r\n")); // Ok, so we're alive...
 
     xTaskCreate(
 		TaskBlinkRedLED
-		,  (const portCHAR *)"RedLED" // Main Arduino Mega 2560, Freetronics EtherMega (Red) LED Blink
-		,  256				// Tested 9 free @ 208
+		,  (const portCHAR *)"RedLED" 
+		,  256				
 		,  NULL
 		,  3
-		,  NULL ); // */
+		,  NULL ); 
 
     xTaskCreate(
     		TaskBlinkBlueLED
-    		,  (const portCHAR *)"BlueLED" // Main Arduino Mega 2560, Freetronics EtherMega (Red) LED Blink
-    		,  256				// Tested 9 free @ 208
+    		,  (const portCHAR *)"BlueLED" 
+    		,  256				
     		,  NULL
     		,  3
-    		,  NULL ); // */
+    		,  NULL ); 
 
     xTaskCreate(
     		TaskBlinkGreenLED
-    		,  (const portCHAR *)"GreenLED" // Main Arduino Mega 2560, Freetronics EtherMega (Red) LED Blink
-    		,  256				// Tested 9 free @ 208
+    		,  (const portCHAR *)"GreenLED" 
+    		,  256				
     		,  NULL
     		,  3
     		,  NULL ); // */
 
-	avrSerialPrintf_P(PSTR("\r\n\nFree Heap Size: %u\r\n"),xPortGetFreeHeapSize() ); // needs heap_1 or heap_2 for this function to succeed.
+	
 
 	vTaskStartScheduler();
 
-	avrSerialPrint_P(PSTR("\r\n\n\nGoodbye... no space for idle task!\r\n")); // Doh, so we're dead...
 
 }
 
