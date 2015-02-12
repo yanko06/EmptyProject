@@ -33,22 +33,37 @@ int main(void) __attribute__((OS_main));
 
 int main(void)
 {
-	taskDISABLE_INTERRUPTS();
+	//taskDISABLE_INTERRUPTS();
     // turn on the serial port for debugging or for other USART reasons.
-	xSerialPort = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+	avrSerialPrint_P(PSTR("\r\n\n\nHello World!\r\n"));
+	char * txt = "Hello";
+	uint8_t * cvn = (uint8_t *) txt;
+	xComPortHandlePtr xSerialPortPtr = &xSerialPort;
 
+	xSerialFlush(xSerialPortPtr);
+	xSerialxPrint(xSerialPortPtr, cvn);
+	avrSerialPrint_P(PSTR("Initialising Master \n"));
 	I2C_Master_Initialise(0xD4);
 	taskENABLE_INTERRUPTS();
 	while(1)
 	{
+	avrSerialPrint_P(PSTR("Entering Loop \n"));
 	uint8_t arguments[3] = {0xD0, 0x00, 0x20};
+	avrSerialPrint_P(PSTR("INtiliasing arguments \n"));
+	avrSerialPrint_P(PSTR("Send write arguments \n"));
 	I2C_Master_Start_Transceiver_With_Data(arguments, 3);
+	avrSerialPrint_P(PSTR("Intiliasing read arguments \n"));
 	uint8_t readArguments[2] = {0xD0, 0x01};
+	avrSerialPrint_P(PSTR("Sending write2 sequence \n"));
 	I2C_Master_Start_Transceiver_With_Data(readArguments, 2);
+	avrSerialPrint_P(PSTR("Sending read arguments \n"));
 	I2C_Master_Start_Transceiver_With_Data(0XD1, 1);
 	uint8_t message;
-	I2C_Master_Get_Data_From_Transceiver(&message);
-	xSerialxPrintf_P(PSTR("message"), uxTaskGetStackHighWaterMark(NULL));
+	avrSerialPrint_P(PSTR("Attempt to read data from thingy \n"));
+	I2C_Master_Get_Data_From_Transceiver(&message, 24);
+	avrSerialPrint_P(PSTR("message \n"));
+	//xSerialxPrintf_P(PSTR("message"), uxTaskGetStackHighWaterMark(NULL));
 	}
 
 
