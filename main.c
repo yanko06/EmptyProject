@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
+#include<stdio.h>
 #include <avr/io.h>
 
 /* Scheduler include files. */
@@ -33,12 +33,26 @@ int main(void) __attribute__((OS_main));
 
 int main(void)
 {
-
+	taskDISABLE_INTERRUPTS();
     // turn on the serial port for debugging or for other USART reasons.
 	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 
+	I2C_Master_Initialise(0xD4);
+	uint8_t arguments[3] = {0xD0, 0x00, 0x20};
+	taskENABLE_INTERRUPTS();
 
-    xTaskCreate(
+	I2C_Master_Start_Transceiver_With_Data(*arguments, 0x03);
+
+
+	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+
+		I2C_Master_Initialise(0xD4);
+		uint8_t arguments[3] = {0xD0, 0x00, 0x20};
+		taskENABLE_INTERRUPTS();
+
+		I2C_Master_Start_Transceiver_With_Data(*arguments, 0x03);
+
+	xTaskCreate(
 		TaskBlinkRedLED
 		,  (const portCHAR *)"RedLED" 
 		,  256				
@@ -63,7 +77,6 @@ int main(void)
     		,  NULL ); // */
 
 	
-
 	vTaskStartScheduler();
 
 
