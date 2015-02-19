@@ -85,7 +85,7 @@ int main(void)
 
 	vTaskStartScheduler();
 
-
+vTaskStartScheduler();
 }
 
 /*-----------------------------------------------------------*/
