@@ -40,25 +40,29 @@ void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 	/* Variable used in vTaskDelayUntil. Needs to be set once to allow for a valid start
 		time for the vTaskDelayUntil. After this point, vTaskDelayUntil handles itself. */
 	xLastWakeTime = xTaskGetTickCount();
+	I2C_Master_Initialise(0xD0);
+			taskENABLE_INTERRUPTS();
+			avrSerialPrint_P(PSTR("Entering Loop \n"));
+			uint8_t arguments[3] = {0xD0, 0x00, 0x20};
+			avrSerialPrint_P(PSTR("INtiliasing arguments \n"));
+			avrSerialPrint_P(PSTR("Send write arguments \n"));
+			I2C_Master_Start_Transceiver_With_Data(arguments, 2);
 
-	I2C_Master_Initialise(0xD4);
-		taskENABLE_INTERRUPTS();
+
 		while(1)
 		{
-		avrSerialPrint_P(PSTR("Entering Loop \n"));
-		uint8_t arguments[3] = {0xD0, 0x00, 0x20};
-		avrSerialPrint_P(PSTR("INtiliasing arguments \n"));
-		avrSerialPrint_P(PSTR("Send write arguments \n"));
-		I2C_Master_Start_Transceiver_With_Data(arguments, 3);
+
 		avrSerialPrint_P(PSTR("Intiliasing read arguments \n"));
 		uint8_t readArguments[2] = {0xD0, 0x01};
 		avrSerialPrint_P(PSTR("Sending write2 sequence \n"));
-		I2C_Master_Start_Transceiver_With_Data(readArguments, 2);
+		I2C_Master_Start_Transceiver_With_Data(readArguments, 1);
 		avrSerialPrint_P(PSTR("Sending read arguments \n"));
-		I2C_Master_Start_Transceiver_With_Data(0XD1, 1);
+		uint8_t test[1] = {0xD1};
+		I2C_Master_Start_Transceiver_With_Data(test, 0);
 		uint8_t message;
 		avrSerialPrint_P(PSTR("Attempt to read data from thingy \n"));
 		I2C_Master_Get_Data_From_Transceiver(&message, 24);
+		avrSerialPrint_p(message);
 		avrSerialPrint_P(PSTR("message \n"));
 		}
 
