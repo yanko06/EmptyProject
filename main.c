@@ -31,14 +31,22 @@ extern xComPortHandle xSerialPort;
 
 /* Main program loop */
 int main(void) __attribute__((OS_main));
-
-void TaskPrintToUsart(void *pvParameters) // Main Red LED Flash
+void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 {
-	TickType_t xLastWakeTime;
-/* Variable used in vTaskDelayUntil. Needs to be set once to allow for a valid start
-	time for the vTaskDelayUntil. After this point, vTaskDelayUntil handles itself. */
+    (void) pvParameters;;
+	taskDISABLE_INTERRUPTS();
+
+    TickType_t xLastWakeTime;
+	/* Variable used in vTaskDelayUntil. Needs to be set once to allow for a valid start
+		time for the vTaskDelayUntil. After this point, vTaskDelayUntil handles itself. */
 	xLastWakeTime = xTaskGetTickCount();
-	xSerialPort = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+	I2C_Master_Initialise(0xD0);
+			taskENABLE_INTERRUPTS();
+			avrSerialPrint_P(PSTR("Entering Loop \n"));
+			uint8_t arguments[3] = {0xD0, 0x00, 0x20};
+			avrSerialPrint_P(PSTR("INtiliasing arguments \n"));
+			avrSerialPrint_P(PSTR("Send write arguments \n"));
+			I2C_Master_Start_Transceiver_With_Data(arguments, 2);
 
 	xSerial1Port = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 	char * txt = "124";
@@ -67,11 +75,13 @@ int main(void)
 	uint8_t * cvn = (uint8_t *) txt;
 	xComPortHandlePtr xSerialPortPtr = &xSerialPort;
 
-	xSerialFlush(xSerialPortPtr);
-	xSerialxPrint(xSerialPortPtr, cvn);
-	avrSerialPrint_P(PSTR("Initialising Master \n"));
-	I2C_Master_Initialise(0xD4);
-	taskENABLE_INTERRUPTS();*/
+	xTaskCreate(
+			TaskStartIFS
+			,  (const portCHAR *)"IFS"
+			,  256
+			,  NULL
+			,  3
+			,  NULL );
 
     xTaskCreate(
     		TaskPrintToUsart
