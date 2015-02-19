@@ -16,3 +16,4 @@
 void TaskBlinkRedLED(void *pvParameters); // Main Red LED Flash
 void TaskBlinkBlueLED(void *pvParameters); // Main Blue LED Flash
 void TaskBlinkGreenLED(void *pvParameters); // Main Green LED Flash
+void TaskPrintToUsart(void *pvParameters);
