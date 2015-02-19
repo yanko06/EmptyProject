@@ -33,40 +33,54 @@ int main(void) __attribute__((OS_main));
 
 int main(void)
 {
-
+	/*taskDISABLE_INTERRUPTS();
     // turn on the serial port for debugging or for other USART reasons.
-	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+	xSerialPort = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+	avrSerialPrint_P(PSTR("\r\n\n\nHello World!\r\n"));
+	char * txt = "Hello";
+	uint8_t * cvn = (uint8_t *) txt;
+	xComPortHandlePtr xSerialPortPtr = &xSerialPort;
 
+	xSerialFlush(xSerialPortPtr);
+	xSerialxPrint(xSerialPortPtr, cvn);
+	avrSerialPrint_P(PSTR("Initialising Master \n"));
+	I2C_Master_Initialise(0xD4);
+	taskENABLE_INTERRUPTS();*/
 
     xTaskCreate(
-		TaskBlinkRedLED
-		,  (const portCHAR *)"RedLED" 
+    		TaskPrintToUsart
+		,  (const portCHAR *)"USART"
 		,  256				
 		,  NULL
 		,  3
 		,  NULL ); 
 
-    xTaskCreate(
-    		TaskBlinkBlueLED
-    		,  (const portCHAR *)"BlueLED" 
-    		,  256				
-    		,  NULL
-    		,  3
-    		,  NULL ); 
 
-    xTaskCreate(
-    		TaskBlinkGreenLED
-    		,  (const portCHAR *)"GreenLED" 
-    		,  256				
-    		,  NULL
-    		,  3
-    		,  NULL ); // */
-
-	
 
 	vTaskStartScheduler();
 
 
+}
+
+void TaskPrintToUsart(void *pvParameters) // Main Red LED Flash
+{
+	TickType_t xLastWakeTime;
+/* Variable used in vTaskDelayUntil. Needs to be set once to allow for a valid start
+	time for the vTaskDelayUntil. After this point, vTaskDelayUntil handles itself. */
+xLastWakeTime = xTaskGetTickCount();
+	xSerialPort = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+		char * txt = "Hello";
+		uint8_t * cvn = (uint8_t *) txt;
+		xComPortHandlePtr xSerialPortPtr = &xSerialPort;
+
+
+    while(1)
+    {
+    	xSerialFlush(xSerialPortPtr);
+    			xSerialxPrint_P(xSerialPortPtr, cvn);
+    			avrSerialPrint_P(PSTR("Initialising Master \n"));
+		vTaskDelayUntil( &xLastWakeTime, ( 1750 / portTICK_PERIOD_MS ) );
+    }
 }
 
 /*-----------------------------------------------------------*/
