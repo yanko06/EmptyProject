@@ -31,8 +31,9 @@ extern xComPortHandle xSerialPort;
 
 /* Main program loop */
 int main(void) __attribute__((OS_main));
-void TaskStartIFS(uint8_t * TArray) // Main Red LED Flash
+void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 {
+	uint8_t * TArray = ((uint8_t)pvParameters);
 	while(1){
 	uint8_t transcieverMsg[2];
 	uint8_t grossDataTPA81[18];
@@ -77,10 +78,11 @@ void TaskStartIFS(uint8_t * TArray) // Main Red LED Flash
 	I2C_Master_Initialise(0xD0);
 			taskENABLE_INTERRUPTS();
 			avrSerialPrint_P(PSTR("Entering Loop \n"));
+			I2C_Check_Free_After_Stop();
 			uint8_t arguments[3] = {0xD0, 0x00, 0x20};
 			avrSerialPrint_P(PSTR("INtiliasing arguments \n"));
 			avrSerialPrint_P(PSTR("Send write arguments \n"));
-			I2C_Master_Start_Transceiver_With_Data(arguments, 2);
+			I2C_Master_Start_Transceiver_With_Data(arguments, 3);
 
 
 		while(1)
@@ -89,14 +91,21 @@ void TaskStartIFS(uint8_t * TArray) // Main Red LED Flash
 		avrSerialPrint_P(PSTR("Intiliasing read arguments \n"));
 		uint8_t readArguments[2] = {0xD0, 0x01};
 		avrSerialPrint_P(PSTR("Sending write2 sequence \n"));
-		I2C_Master_Start_Transceiver_With_Data(readArguments, 1);
+		I2C_Check_Free_After_Stop();
+		I2C_Master_Start_Transceiver_With_Data(readArguments, 2);
 		avrSerialPrint_P(PSTR("Sending read arguments \n"));
-		uint8_t test[1] = {0xD1};
-		I2C_Master_Start_Transceiver_With_Data(test, 0);
-		uint8_t message;
+		uint8_t test[2] = {0xD1, 0x05};
+		I2C_Check_Free_After_Stop();
+		I2C_Master_Start_Transceiver_With_Data(test, 2);
+		uint8_t wheretoread[1] = {0x05};
 		avrSerialPrint_P(PSTR("Attempt to read data from thingy \n"));
+<<<<<<< HEAD
 		I2C_Master_Get_Data_From_Transceiver(&message, 24);
 		avrSerialPrint_P(message);
+=======
+		I2C_Master_Get_Data_From_Transceiver(wheretoread, 1);
+		avrSerialPrint_P(0x05);
+>>>>>>> 3754c1a74ff3c6388b4f4194d4e00d6bf8b82916
 		avrSerialPrint_P(PSTR("message \n"));
 		}*/
 
@@ -108,13 +117,13 @@ int main(void)
 	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 	avrSerialPrint_P(PSTR("\r\n\n\nHello World!\r\n"));
 
-	uint8_t TArray[9];
+	uint8_t tArray[9];
 	//uint8_t *arrayPointer = TArray;
 	xTaskCreate(
 			TaskStartIFS
 			,  (const portCHAR *)"IFS"
 			,  256
-			,  &TArray
+			,  &tArray
 			,  3
 			,  NULL );
 
