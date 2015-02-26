@@ -13,6 +13,5 @@
 /* serial interface include file. */
 #include "serial.h"
 
-void TaskBlinkRedLED(void *pvParameters); // Main Red LED Flash
-void TaskBlinkBlueLED(void *pvParameters); // Main Blue LED Flash
-void TaskBlinkGreenLED(void *pvParameters); // Main Green LED Flash
+void turnOnLED(int color);
+void turnOffLED(int color);
