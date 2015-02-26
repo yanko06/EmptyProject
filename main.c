@@ -33,27 +33,28 @@ extern xComPortHandle xSerialPort;
 int main(void) __attribute__((OS_main));
 void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 {
-	uint8_t * TArray = ((uint8_t)pvParameters);
-	while(1){
+	uint8_t TArray[9];
 	uint8_t transcieverMsg[2];
 	uint8_t grossDataTPA81[18];
 
 	for (uint8_t i = 0x00; i < 0x09; i++){
 		transcieverMsg[0] = 0xD0;
+		transcieverMsg[1] = i;
+		transcieverMsg[2] = 0x20;
+
+		I2C_Master_Start_Transceiver_With_Data(&transcieverMsg[0], 3);
+		avrSerialPrint_P(PSTR("\r\nTaskReadTemperature: Start \n"));
+
+		transcieverMsg[0] = 0xD0;
 		transcieverMsg[1] = i + 1;
-
 		I2C_Master_Start_Transceiver_With_Data(&transcieverMsg[0], 2);
-		avrSerialPrint_P(PSTR("TaskReadTemperature: Start \n"));
+		avrSerialPrint_P(PSTR("\r\nTaskReadTemperature: Restart \n"));
 
-		transcieverMsg[0] = 0x01;
-		I2C_Master_Start_Transceiver_With_Data(&transcieverMsg[0], 1);
-		avrSerialPrint_P(PSTR("TaskReadTemperature: Restart \n"));
-
-		uint8_t ok = I2C_Master_Get_Data_From_Transceiver(&grossDataTPA81[2*1], (uint8_t) 2);
-		avrSerialPrint_P(PSTR("TaskReadTemperature: Read \n"));
+		uint8_t ok = I2C_Master_Get_Data_From_Transceiver(&grossDataTPA81[2*i], 2);
+		avrSerialPrint_P(PSTR("\r\nTaskReadTemperature: Read \n"));
 
 		if (ok != 1){
-			avrSerialPrint_P(PSTR("Couldn't read data \n"));
+			avrSerialPrint_P(PSTR("\r\nCouldn't read data \n"));
 		}
 	}
 
@@ -108,22 +109,22 @@ void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 >>>>>>> 3754c1a74ff3c6388b4f4194d4e00d6bf8b82916
 		avrSerialPrint_P(PSTR("message \n"));
 		}*/
-
-}
 }
 int main(void)
 {
     // turn on the serial port for debugging or for other USART reasons.
+	taskDISABLE_INTERRUPTS()
 	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 	avrSerialPrint_P(PSTR("\r\n\n\nHello World!\r\n"));
 
-	uint8_t tArray[9];
+	I2C_Master_Initialise(0xD3);
+	taskENABLE_INTERRUPTS();
 	//uint8_t *arrayPointer = TArray;
 	xTaskCreate(
 			TaskStartIFS
 			,  (const portCHAR *)"IFS"
 			,  256
-			,  &tArray
+			,  NULL
 			,  3
 			,  NULL );
 
