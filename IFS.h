@@ -21,6 +21,6 @@
 /* serial interface include file. */
 #include "serial.h"
 
-void TaskStartIFS(void *pvParameters);
+void TaskStartIFS(uint8_t * TArray);
 
 
