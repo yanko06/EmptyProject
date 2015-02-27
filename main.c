@@ -32,12 +32,6 @@ extern xComPortHandle xSerialPort;
 
 /* Main program loop */
 int main(void) __attribute__((OS_main));
-void taskForOrdancing(void *pvParameters) // Main Red LED Flash
-{
-
-
-}
-}
 void TaskPrintToUsart(void *pvParameters) // Main Red LED Flash
 {
 	TickType_t xLastWakeTime;
@@ -83,7 +77,7 @@ int main(void)
 
 	vTaskStartScheduler();
 
-vTaskStartScheduler();
+
 }
 
 /*-----------------------------------------------------------*/
