@@ -19,8 +19,8 @@
 
 /* serial interface include file. */
 #include "serial.h"
-
-void TaskStartIFS(uint8_t * TArray) // Main Red LED Flash
+extern uint8_t TArray[9];
+void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 {
 	uint8_t transcieverMsg[2];
 	uint8_t grossDataTPA81[18];
