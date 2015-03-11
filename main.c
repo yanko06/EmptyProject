@@ -68,6 +68,8 @@ void TaskStartIFSTest(void *pvParameters) // Main Red LED Flash
 
 	int average;
 	char temp;
+	char *temp2;
+
 	while (1){
 	TaskStartIFS(&TArray[0]);
 	average = 0;
@@ -75,13 +77,19 @@ void TaskStartIFSTest(void *pvParameters) // Main Red LED Flash
 		average = average + TArray[i];
 	}
 	average = average/8;
-	temp = (char)(((int)'0')+average);
-	//vTaskDelayUntil( &xLastWakeTime, ( 1750 / portTICK_PERIOD_MS ) );
+
+	temp = (char)(average);
+	temp2 = &temp;
+	vTaskDelayUntil( &xLastWakeTime, ( 250 / portTICK_PERIOD_MS ) );
+
 	for (int k = 0; k < 9; k++){
 			avrSerialPrintf_P(PSTR("%d "), TArray[k]);
-		}
+	}
 	avrSerialPrintf_P(PSTR("\n %d "), average);
-	//display(&temp);
+
+	avrSerialPrintf_P(PSTR("\r Temp: %d \n"), *temp2);
+	display(temp2);
+
 	if ((int) average < 20){
 			turnOffLED(0);
 			turnOffLED(2);
@@ -102,13 +110,9 @@ void TaskStartIFSTest(void *pvParameters) // Main Red LED Flash
 
 int main(void)
 {
-
     // turn on the serial port for debugging or for other USART reasons.
 	xSerialPort = xSerialPortInitMinimal( USART0, 115200, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 	avrSerialPrint_P(PSTR("\r\n\n\nHello World!\r\n"));
-	char * txt = "Hello";
-	//uint8_t * cvn = (uint8_t *) txt;
-	//xComPortHandlePtr xSerialPortPtr = &xSerialPort;
 	taskDISABLE_INTERRUPTS();
 	I2C_Master_Initialise(0XD4);
 	taskENABLE_INTERRUPTS();

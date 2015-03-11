@@ -11,6 +11,7 @@
 
 void initLCD(void);
 void display(char *str);
+void clearDisplay();
 
 
 #endif /* DISPLAY_H_ */
