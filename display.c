@@ -15,17 +15,18 @@ xComPortHandlePtr xSerialPortPtr = &xSerial1Port;
 void initLCD(void){
 	xSerial1Port = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 };
+
+void clearDisplay(){
+	xSerialxPrintf_P(xSerialPortPtr, PSTR("%c"), 0xFE);
+	xSerialxPrintf_P(xSerialPortPtr, PSTR("%c"), 0x01);
+};
+
 void display(char *str){
 	xSerial1Port = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
+	clearDisplay();
 
-	avrSerialPrintf_P(PSTR("\r\n\n\nDisplay String: %s\r\n"), str);
-	uint8_t * cvn = (uint8_t *) str;
+	avrSerialxPrintf_P(xSerialPortPtr,PSTR("T: %d"), *str);
 	xSerialFlush(xSerialPortPtr);
-	xSerialxPrint(xSerialPortPtr, cvn);
+	vSerialClose(xSerialPortPtr);
 };
-void clearDisplay(){
-	char * cptr = "124 1";
-	uint8_t * cvn = (uint8_t *) cptr;
-	xSerialFlush(xSerialPortPtr);
-	xSerialxPrint(xSerialPortPtr, cvn);
-};
+
