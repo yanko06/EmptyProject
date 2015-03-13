@@ -22,5 +22,6 @@
 #include "serial.h"
 
 void TaskStartIFS(uint8_t * TArray);
+void CalculateAverage(void *pvParameters);
 
 

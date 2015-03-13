@@ -20,6 +20,9 @@
 /* serial interface include file. */
 #include "serial.h"
 extern uint8_t TArray[9];
+extern int average;
+extern char *temp2;
+extern char temp;
 void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 {
 	uint8_t transcieverMsg[2];
@@ -32,7 +35,7 @@ void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 		transcieverMsg[2] = 0x20;
 
 		I2C_Master_Start_Transceiver_With_Data(&transcieverMsg[0], 3);
-		avrSerialPrint_P(PSTR("\r\nTaskReadTemperature: Start \n"));
+		//avrSerialPrint_P(PSTR("\r\nTaskReadTemperature: Start \n"));
 
 		transcieverMsg[0] = 0xD0;
 		transcieverMsg[1] = 0x01 + i ;
@@ -53,6 +56,17 @@ void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 			TArray[j/2] = grossDataTPA81[j];
 		}
 	}
-}
+};
+void CalculateAverage(void *pvParameters)
+{
+	average = 0;
+		for (int i = 1; i < 9; i++){
+			average = average + TArray[i];
+		}
+		average = average/8;
+
+		temp = (char)(average);
+		temp2 = &temp;
+};
 
 

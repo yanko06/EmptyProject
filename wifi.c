@@ -21,6 +21,8 @@
 /* serial interface include file. */
 #include "serial.h"
 
+extern int average;
+
 #define ROUGE 0
 #define BLEU 1
 #define VERT 2
@@ -49,4 +51,23 @@ void turnOffLED(int color){
 		DDRE = _BV(DDE3);
 		PORTE |= _BV(PORTE3);
 	}
+};
+void ActivateLED(void *pvParameters)
+{
+
+	if ((int) average < 20){
+				turnOffLED(0);
+				turnOffLED(2);
+				turnOnLED(1);
+		}
+		else if (average < 30){
+				turnOffLED(0);
+				turnOffLED(1);
+				turnOnLED(2);
+		}
+		else{
+				turnOffLED(1);
+				turnOffLED(2);
+				turnOnLED(0);
+		}
 };

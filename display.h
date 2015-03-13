@@ -12,6 +12,7 @@
 void initLCD(void);
 void display(char *str);
 void clearDisplay();
+void DisplayTemp(void *pvParameters);
 
 
 #endif /* DISPLAY_H_ */
