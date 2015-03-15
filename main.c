@@ -32,22 +32,17 @@ extern xComPortHandle xSerialPort;
 /*-----------------------------------------------------------*/
 uint8_t statsBuffer[40*4];
 int average;
-char *temp2;
-char temp;
-uint8_t TArray[9];
+char *tempPTR;
+char temperature;
+uint8_t temperatureTable[9];
 /* Main program loop */
 int main(void) __attribute__((OS_main));
 typedef void (*TASK_POINTER)(void);
-#define TABLE_SIZE
-
-
-TaskHandle_t testTaskHndl;
-TaskHandle_t reportStatsHndl;
 
 TASK_POINTER table[] =
 {
 	TaskStartIFS,
-	CalculateAverage,
+	CalculateTemperatureAverage,
 	ActivateLED,
 	DisplayTemp
 
