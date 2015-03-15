@@ -61,7 +61,7 @@ void CalculateTemperatureAverage(void *pvParameters) {
 	}
 	average = average / 8;
 
-	temperature = (char) (temperatureTable[0]);
+	temperature = (char) (average);
 	tempPTR = &temperature;
 }
 ;
