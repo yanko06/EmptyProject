@@ -21,6 +21,7 @@
 /* serial interface include file. */
 #include "serial.h"
 
-void TaskStartIFS(uint8_t * TArray);
+void TaskStartIFS(void *pvParameters);
+void CalculateTemperatureAverage(void *pvParameters);
 
 

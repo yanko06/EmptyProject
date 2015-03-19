@@ -11,7 +11,8 @@
 
 extern xComPortHandle xSerial1Port;
 xComPortHandlePtr xSerialPortPtr = &xSerial1Port;
-
+extern char *tempPTR;
+extern char temperature;
 void initLCD(void){
 	xSerial1Port = xSerialPortInitMinimal( USART1, 9600, portSERIAL_BUFFER_TX, portSERIAL_BUFFER_RX); //  serial port: WantedBaud, TxQueueLength, RxQueueLength (8n1)
 };
@@ -28,5 +29,9 @@ void display(char *str){
 	avrSerialxPrintf_P(xSerialPortPtr,PSTR("T: %d"), *str);
 	xSerialFlush(xSerialPortPtr);
 	vSerialClose(xSerialPortPtr);
+};
+void DisplayTemp(void *pvParameters)
+{
+	display(tempPTR);
 };
 

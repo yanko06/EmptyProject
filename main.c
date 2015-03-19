@@ -30,60 +30,36 @@ extern xComPortHandle xSerial1Port;
 extern xComPortHandle xSerialPort;
 
 /*-----------------------------------------------------------*/
-
+uint8_t statsBuffer[40*4];
+int average;
+char *tempPTR;
+char temperature;
+uint8_t temperatureTable[9];
 /* Main program loop */
 int main(void) __attribute__((OS_main));
+typedef void (*TASK_POINTER)(void);
 
-uint8_t TArray[9];
-void TaskStartIFSTest(void *pvParameters) // Main Red LED Flash
+TASK_POINTER table[] =
 {
-	TickType_t xLastWakeTime;
-	/* Variable used in vTaskDelayUntil. Needs to be set once to allow for a valid start
-		time for the vTaskDelayUntil. After this point, vTaskDelayUntil handles itself. */
-		xLastWakeTime = xTaskGetTickCount();
+	TaskStartIFS,
+	CalculateTemperatureAverage,
+	ActivateLED,
+	DisplayTemp
 
-	int average;
-	char temp;
-	char *temp2;
+};
+void StartSchduler(void *pvParameters)
+{
+	while(1)
+	{
+		int x;
+		for ( x = 0; x < 4; x++ )
+		{
+			table[x]();
 
-	while (1){
-	TaskStartIFS(&TArray[0]);
-	average = 0;
-	for (int i = 1; i < 9; i++){
-		average = average + TArray[i];
 	}
-	average = average/8;
-
-	temp = (char)(average);
-	temp2 = &temp;
-	vTaskDelayUntil( &xLastWakeTime, ( 250 / portTICK_PERIOD_MS ) );
-
-	for (int k = 0; k < 9; k++){
-			avrSerialPrintf_P(PSTR("%d "), TArray[k]);
-	}
-	avrSerialPrintf_P(PSTR("\n %d "), average);
-
-	avrSerialPrintf_P(PSTR("\r Temp: %d \n"), *temp2);
-	display(temp2);
-
-	if ((int) average < 20){
-			turnOffLED(0);
-			turnOffLED(2);
-			turnOnLED(1);
-	}
-	else if (average < 30){
-			turnOffLED(0);
-			turnOffLED(1);
-			turnOnLED(2);
-	}
-	else{
-			turnOffLED(1);
-			turnOffLED(2);
-			turnOnLED(0);
-	}
+		vTaskDelay(( 100 / portTICK_PERIOD_MS ));
 	}
 }
-
 int main(void)
 {
     // turn on the serial port for debugging or for other USART reasons.
@@ -93,7 +69,7 @@ int main(void)
 	I2C_Master_Initialise(0XD4);
 	taskENABLE_INTERRUPTS();
 	xTaskCreate(
-			TaskStartIFSTest
+			StartSchduler
 			,  (const portCHAR *)"IFS"
 			,  256
 			,  NULL
@@ -106,7 +82,6 @@ int main(void)
 }
 
 /*-----------------------------------------------------------*/
-
 
 void vApplicationStackOverflowHook( TaskHandle_t xTask,
                                     portCHAR *pcTaskName )
