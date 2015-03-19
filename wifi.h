@@ -12,6 +12,9 @@
 
 /* serial interface include file. */
 #include "serial.h"
+#define ROUGE 0
+#define BLEU 1
+#define VERT 2
 
 void turnOnLED(int color);
 void turnOffLED(int color);

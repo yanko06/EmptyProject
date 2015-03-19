@@ -16,6 +16,7 @@
 #include "queue.h"
 #include "semphr.h"
 #include "i2cMultiMaster.h"
+#include "wheels.h"
 
 /* serial interface include file. */
 #include "serial.h"
@@ -38,26 +39,34 @@ uint8_t temperatureTable[9];
 /* Main program loop */
 int main(void) __attribute__((OS_main));
 typedef void (*TASK_POINTER)(void);
-
+double * value;
 TASK_POINTER table[] =
 {
-	TaskStartIFS,
+	turnAroundAntiClockwise,
+	turnAroundClockwise,
+	moveFoward,
+	moveBackward,
+	printSpeed,
+	/*TaskStartIFS,
 	CalculateTemperatureAverage,
 	ActivateLED,
-	DisplayTemp
+	DisplayTemp*/
 
 };
 void StartSchduler(void *pvParameters)
 {
+	start_Engine();
+	vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
 	while(1)
 	{
 		int x;
-		for ( x = 0; x < 4; x++ )
+		for ( x = 0; x < 5; x++ )
 		{
 			table[x]();
+			vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
 
 	}
-		vTaskDelay(( 100 / portTICK_PERIOD_MS ));
+
 	}
 }
 int main(void)
