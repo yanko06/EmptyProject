@@ -42,12 +42,13 @@ typedef void (*TASK_POINTER)(void);
 double * value;
 TASK_POINTER table[] =
 {
-	turnAroundAntiClockwise,
+	rotateCentralServoMotor
+	/**turnAroundAntiClockwise,
 	turnAroundClockwise,
 	moveFoward,
 	moveBackward,
 	printSpeed,
-	/*TaskStartIFS,
+	TaskStartIFS,
 	CalculateTemperatureAverage,
 	ActivateLED,
 	DisplayTemp*/

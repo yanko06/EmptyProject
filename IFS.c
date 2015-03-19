@@ -16,6 +16,7 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
+#include "motion.h"
 
 /* serial interface include file. */
 #include "serial.h"
@@ -63,6 +64,21 @@ void CalculateTemperatureAverage(void *pvParameters) {
 
 	temperature = (char) (average);
 	tempPTR = &temperature;
+}
+;
+
+void rotateCentralServoMotor(void *pvParameters) {
+	while (1){
+	avrSerialPrint_P(PSTR("\r\n\n\nRotateCentralServoMotor\r\n"));
+	motion_servo_set_pulse_width(MOTION_SERVO_CENTER, 1100);
+	motion_servo_start(MOTION_SERVO_CENTER);
+	vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
+	motion_servo_stop(MOTION_SERVO_CENTER);
+	motion_servo_set_pulse_width(MOTION_SERVO_CENTER, 4800);
+	motion_servo_start(MOTION_SERVO_CENTER);
+	vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
+	motion_servo_stop(MOTION_SERVO_CENTER);
+	}
 }
 ;
 

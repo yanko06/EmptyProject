@@ -17,11 +17,13 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
+#include "motion.h"
 
 /* serial interface include file. */
 #include "serial.h"
 
 void TaskStartIFS(void *pvParameters);
 void CalculateTemperatureAverage(void *pvParameters);
+void rotateCentralServoMotor(void *pvParameters);
 
 
