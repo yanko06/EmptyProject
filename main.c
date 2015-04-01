@@ -42,16 +42,15 @@ typedef void (*TASK_POINTER)(void);
 double * value;
 TASK_POINTER table[] =
 {
-	rotateCentralServoMotor
-	/**turnAroundAntiClockwise,
-	turnAroundClockwise,
-	moveFoward,
-	moveBackward,
-	printSpeed,
-	TaskStartIFS,
-	CalculateTemperatureAverage,
-	ActivateLED,
-	DisplayTemp*/
+	//rotateCentralServoMotor,
+	//turnAroundAntiClockwise,
+	//turnAroundClockwise,
+	moveFoward
+	//moveBackward,
+	//TaskStartIFS,
+	//CalculateTemperatureAverage,
+	//ActivateLED,
+	//DisplayTemp
 
 };
 void StartSchduler(void *pvParameters)
@@ -61,7 +60,7 @@ void StartSchduler(void *pvParameters)
 	while(1)
 	{
 		int x;
-		for ( x = 0; x < 5; x++ )
+		for ( x = 0; x < 1; x++ )
 		{
 			table[x]();
 			vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
@@ -85,6 +84,13 @@ int main(void)
 			,  NULL
 			,  3
 			,  NULL );
+	xTaskCreate(
+				printSpeed
+				,  (const portCHAR *)"Speed Monitor."
+				,  256
+				,  NULL
+				,  4
+				,  NULL );
 
 	vTaskStartScheduler();
 
