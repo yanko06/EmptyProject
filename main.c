@@ -40,14 +40,31 @@ uint8_t temperatureTable[9];
 int main(void) __attribute__((OS_main));
 typedef void (*TASK_POINTER)(void);
 double * value;
+double leftTemp=0;
+double rightTemp=0;
+void calculateAverageTmeperature(){
+	for(int i = 1; i<5; i++){
+		leftTemp += temperatureTable[i];
+		rightTemp += temperatureTable[i+4];
+	}
+	leftTemp = leftTemp/4;
+	rightTemp = rightTemp/4;
+	char temperatureLeft = (char) (leftTemp);
+	char temperatureRight = (char) (rightTemp);
+	char temperatureAmbiant = (char) (temperatureTable[0]);
+	//char concatenatedTemps = temperatureLeft;
+	//changeLine();
+	displayBottomLine(&temperatureAmbiant, &temperatureRight, &temperatureLeft);
+}
 TASK_POINTER table[] =
 {
 	//rotateCentralServoMotor,
 	//turnAroundAntiClockwise,
 	//turnAroundClockwise,
-	moveFoward
+	//moveFoward,
+	TaskStartIFS,
+	calculateAverageTmeperature
 	//moveBackward,
-	//TaskStartIFS,
 	//CalculateTemperatureAverage,
 	//ActivateLED,
 	//DisplayTemp
@@ -60,7 +77,7 @@ void StartSchduler(void *pvParameters)
 	while(1)
 	{
 		int x;
-		for ( x = 0; x < 1; x++ )
+		for ( x = 0; x < 2; x++ )
 		{
 			table[x]();
 			vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
@@ -89,8 +106,18 @@ int main(void)
 				,  (const portCHAR *)"Speed Monitor."
 				,  256
 				,  NULL
-				,  4
+				,  3
 				,  NULL );
+	xTaskCreate(
+			rotateCentralServoMotor
+					,  (const portCHAR *)"Head Turn wut."
+					,  256
+					,  NULL
+					,  3
+					,  NULL );
+
+
+
 
 	vTaskStartScheduler();
 

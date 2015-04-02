@@ -10,8 +10,10 @@
 
 
 void initLCD(void);
-void display(char *str);
+void displayBottomLine(char *ambiantTemp, char *averageRightTemp, char *averageLeftTemp);
+void displayTopLine(char *speed, char *distance);
 void clearDisplay();
+void changeLine();
 void DisplayTemp(void *pvParameters);
 
 

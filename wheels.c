@@ -62,9 +62,9 @@ void printSpeed(){
 	{
 	avrSerialPrint_P(PSTR("\r\n\n\nprintSpeed\r\n"));
 	int leftSpeed;
-	uint32_t * leftTicCount;
+	uint32_t  leftTicCount;
 	int rightSpeed;
-	uint32_t * rightTicCount;
+	uint32_t  rightTicCount;
 	uint32_t value = 0;
 	uint32_t value2  = 0;
 	leftSpeed = motion_enc_read(MOTION_WHEEL_LEFT, &leftTicCount);
@@ -80,7 +80,7 @@ void printSpeed(){
 	}
 	avrSerialPrintf_P(PSTR("Speed Left: %d"), value);
 	avrSerialPrintf_P(PSTR("Speed Right: %d"), value2);
-	vTaskDelay(( 50 / portTICK_PERIOD_MS ));
+	vTaskDelay(( 500 / portTICK_PERIOD_MS ));
 	}
 }
 // L/R 1100/4800 Recle
