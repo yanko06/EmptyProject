@@ -53,17 +53,18 @@ void calculateAverageTmeperature(){
 	char temperatureRight = (char) (rightTemp);
 	char temperatureAmbiant = (char) (temperatureTable[0]);
 	//char concatenatedTemps = temperatureLeft;
+	displayTopLine(&temperatureAmbiant, &temperatureRight);
 	//changeLine();
-	displayBottomLine(&temperatureAmbiant, &temperatureRight, &temperatureLeft);
+	//displayBottomLine(&temperatureAmbiant, &temperatureRight, &temperatureLeft);
 }
 TASK_POINTER table[] =
 {
 	//rotateCentralServoMotor,
 	//turnAroundAntiClockwise,
 	//turnAroundClockwise,
-	//moveFoward,
-	TaskStartIFS,
-	calculateAverageTmeperature
+	moveFoward
+	//TaskStartIFS,
+	//calculateAverageTmeperature
 	//moveBackward,
 	//CalculateTemperatureAverage,
 	//ActivateLED,
@@ -77,7 +78,7 @@ void StartSchduler(void *pvParameters)
 	while(1)
 	{
 		int x;
-		for ( x = 0; x < 2; x++ )
+		for ( x = 0; x < 1; x++ )
 		{
 			table[x]();
 			vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
@@ -108,13 +109,13 @@ int main(void)
 				,  NULL
 				,  3
 				,  NULL );
-	xTaskCreate(
+	/*xTaskCreate(
 			rotateCentralServoMotor
 					,  (const portCHAR *)"Head Turn wut."
 					,  256
 					,  NULL
 					,  3
-					,  NULL );
+					,  NULL );*/
 
 
 

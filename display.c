@@ -24,7 +24,8 @@ void clearDisplay(){
 
 void changeLine(){
 	xSerialxPrintf_P(xSerialPortPtr, PSTR("%c"), 0xFE);
-	xSerialxPrintf_P(xSerialPortPtr, PSTR("%c"), 0x90);
+	xSerialxPrintf_P(xSerialPortPtr, PSTR("%c"), 0x80);
+	xSerialxPrintf_P(xSerialPortPtr, PSTR("%c"), 0x40);
 };
 
 void displayBottomLine(char *ambiantTemp, char *averageRightTemp, char *averageLeftTemp){

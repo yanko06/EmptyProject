@@ -58,6 +58,8 @@ void turnDegree(int degree){
 	return 0.55 * value;
 }*/
 void printSpeed(){
+	float value = 0;
+	float value2  = 0;
 	while(1)
 	{
 	avrSerialPrint_P(PSTR("\r\n\n\nprintSpeed\r\n"));
@@ -65,21 +67,36 @@ void printSpeed(){
 	uint32_t  leftTicCount;
 	int rightSpeed;
 	uint32_t  rightTicCount;
-	uint32_t value = 0;
-	uint32_t value2  = 0;
+
 	leftSpeed = motion_enc_read(MOTION_WHEEL_LEFT, &leftTicCount);
 	rightSpeed = motion_enc_read(MOTION_WHEEL_RIGHT, &rightTicCount);
 	if(leftSpeed == 1){
 		//avrSerialPrintf_P(PSTR("Oh hay it worked"));
-		value = leftTicCount;
+		value = (float)leftTicCount;
 	}
 	if(rightSpeed == 1)
 	{
 		//avrSerialPrintf_P(PSTR("Oh hay it worked numbah 2"));
-		value2 = rightTicCount;
+		value2 = (float)rightTicCount;
 	}
-	avrSerialPrintf_P(PSTR("Speed Left: %d"), value);
-	avrSerialPrintf_P(PSTR("Speed Right: %d"), value2);
+	avrSerialPrintf_P(PSTR("tickCount Left: %u"), value);
+		avrSerialPrintf_P(PSTR("   tickCount Right: %u\n\r" ), value2);
+	float rightWheelRotationTime = value2 * 32.00;
+	avrSerialPrintf_P(PSTR("rightWheelRotationTime %d \n \r"), rightWheelRotationTime);
+	uint32_t testFloat = (500.0/1000.0);
+	avrSerialPrintf_P(PSTR("floatvalue %u \n \r"), testFloat);
+	float leftWheelRotationTime = (value * (500.0/1000000000.0)) * 32.00;
+	avrSerialPrintf_P(PSTR("leftWheelRotationTime %d \n\r"), leftWheelRotationTime);
+
+	float rightWheelSpeed = (0.1728 / rightWheelRotationTime);
+	avrSerialPrintf_P(PSTR("rightWheelSpeed %d \n\r"), rightWheelSpeed);
+
+	float leftWheelSpeed = (0.1728 / leftWheelRotationTime);
+	avrSerialPrintf_P(PSTR("leftWheelSpeed %d \n\r"), leftWheelSpeed);
+
+
+	avrSerialPrintf_P(PSTR("Speed Left: %d m/s"), leftWheelSpeed);
+	avrSerialPrintf_P(PSTR("Speed Right: %d m/s"), rightWheelSpeed);
 	vTaskDelay(( 500 / portTICK_PERIOD_MS ));
 	}
 }
