@@ -21,14 +21,11 @@
 /* serial interface include file. */
 #include "serial.h"
 extern uint8_t temperatureTable[9];
-extern int average;
-extern char *tempPTR;
-extern char temperature;
-void TaskStartIFS(void *pvParameters) // Main Red LED Flash
+void TaskStartIFS() // Main Red LED Flash
 {
 	uint8_t messagesForSlave[3];
 	uint8_t data[18];
-
+	avrSerialPrintf_P(PSTR("\r\n -- GET TEMPERATURE \r\n"));
 	for (uint8_t i = 0x00; i < 0x09; i++) {
 		messagesForSlave[0] = 0xD0;
 		messagesForSlave[1] = 0x00;
@@ -55,30 +52,5 @@ void TaskStartIFS(void *pvParameters) // Main Red LED Flash
 	}
 }
 ;
-void CalculateTemperatureAverage(void *pvParameters) {
-	average = 0;
-	for (int i = 1; i < 9; i++) {
-		average = average + temperatureTable[i];
-	}
-	average = average / 8;
 
-	temperature = (char) (average);
-	tempPTR = &temperature;
-}
-;
-
-void rotateCentralServoMotor(void *pvParameters) {
-	while (1){
-	avrSerialPrint_P(PSTR("\r\n\n\nRotateCentralServoMotor\r\n"));
-	motion_servo_set_pulse_width(MOTION_SERVO_CENTER, 1100);
-	motion_servo_start(MOTION_SERVO_CENTER);
-	vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
-	motion_servo_stop(MOTION_SERVO_CENTER);
-	motion_servo_set_pulse_width(MOTION_SERVO_CENTER, 4800);
-	motion_servo_start(MOTION_SERVO_CENTER);
-	vTaskDelay(( 2000 / portTICK_PERIOD_MS ));
-	motion_servo_stop(MOTION_SERVO_CENTER);
-	}
-}
-;
 

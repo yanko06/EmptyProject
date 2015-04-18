@@ -22,8 +22,6 @@
 /* serial interface include file. */
 #include "serial.h"
 
-void TaskStartIFS(void *pvParameters);
-void CalculateTemperatureAverage(void *pvParameters);
-void rotateCentralServoMotor(void *pvParameters);
+void TaskStartIFS();
 
 

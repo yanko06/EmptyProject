@@ -18,4 +18,4 @@
 
 void turnOnLED(int color);
 void turnOffLED(int color);
-void ActivateLED(void *pvParameters);
+void turnOffAllLED();

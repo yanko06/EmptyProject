@@ -21,13 +21,12 @@
 /* serial interface include file. */
 #include "serial.h"
 
-extern int average;
-
 #define ROUGE 0
 #define BLEU 1
 #define VERT 2
 
 void turnOnLED(int color){
+	avrSerialPrintf_P(PSTR("\r\n -- TURN ON LED \r\n"));
 	if(color==ROUGE){
 		DDRH = _BV(DDH3);
 		PORTH &= ~_BV(PORTH3);
@@ -41,6 +40,7 @@ void turnOnLED(int color){
 };
 
 void turnOffLED(int color){
+	avrSerialPrintf_P(PSTR("\r\n -- TURN OFF LED \r\n"));
 	if(color==ROUGE){
 		DDRH = _BV(DDH3);
 		PORTH |=  _BV(PORTH3);
@@ -52,22 +52,12 @@ void turnOffLED(int color){
 		PORTE |= _BV(PORTE3);
 	}
 };
-void ActivateLED(void *pvParameters)
-{
-
-	if ((int) average < 20){
-				turnOffLED(0);
-				turnOffLED(2);
-				turnOnLED(1);
-		}
-		else if (average < 30){
-				turnOffLED(0);
-				turnOffLED(1);
-				turnOnLED(2);
-		}
-		else{
-				turnOffLED(1);
-				turnOffLED(2);
-				turnOnLED(0);
-		}
+void turnOffAllLED(){
+	avrSerialPrintf_P(PSTR("\r\n -- TURN OFF ALL LED \r\n"));
+	DDRH = _BV(DDH3);
+	PORTH |=  _BV(PORTH3);
+	DDRE = _BV(DDE5);
+	PORTE |= _BV(PORTE5);
+	DDRE = _BV(DDE3);
+	PORTE |= _BV(PORTE3);
 };

@@ -7,10 +7,16 @@
 
 
 void start_Engine(void);
-void turnAroundAntiClockwise(void);
-void turnAroundClockwise(void);
-void turnDegree(int degree);
-void moveFoward();
-void moveBackward();
-double getSpeed();
-void printSpeed();
+void setSpeed(int leftSpeed, int rightSpeed);
+void validateSpeed();
+void calculateNewSpeed(int Side, int latestTickCount);
+
+void initFoward();
+void initBackward();
+void initTurnLeft();
+void initTurnRight();
+
+int getSpeed();
+int getDistance();
+void rotateCentralServoLeft();
+void rotateCentralServoRight();
